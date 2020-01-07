@@ -22,14 +22,11 @@ public class Movie implements Serializable {
 
 
     private int id;
-
     private String title;
-
     private String description;
-
     private String posterPath;
 
-    public Movie(int id, String title, String overview, String posterPath) {
+    public Movie(int id, String title, String description, String posterPath) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -39,31 +36,24 @@ public class Movie implements Serializable {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String overview) {
         this.description = description;
     }
-
     public String getPosterPath() {
         return posterPath;
     }
-
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
