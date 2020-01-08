@@ -38,6 +38,7 @@ public class LoginFragment extends Fragment {
         sqliteHelper = new SqliteHelper(getContext());
 
         btn_login.setOnClickListener(onClickListenerLogin);
+        tv_reg.setOnClickListener(onClickListenerReg);
 
         return v;
     }
@@ -69,6 +70,21 @@ public class LoginFragment extends Fragment {
             }
         }
     };
+
+    private View.OnClickListener onClickListenerReg = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+                    Fragment fragment = new RegisterFragment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame_id, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+        }
+    };
+
     public boolean validate() {
         boolean valid = false;
 

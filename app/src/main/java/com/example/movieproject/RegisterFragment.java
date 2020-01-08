@@ -41,6 +41,7 @@ public class RegisterFragment extends Fragment {
         sqliteHelper = new SqliteHelper(getContext());
 
         btn_reg.setOnClickListener(onClickListenerRegister);
+        tv_login.setOnClickListener(onClickListenerLogin);
 
         return v;
 
@@ -75,6 +76,20 @@ public class RegisterFragment extends Fragment {
 
 
             }
+        }
+    };
+
+    private View.OnClickListener onClickListenerLogin = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            Fragment fragment = new LoginFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame_id, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
         }
     };
 

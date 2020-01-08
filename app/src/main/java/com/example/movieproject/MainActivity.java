@@ -5,6 +5,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import com.example.movieproject.Model.Movie;
+
 public class MainActivity extends AppCompatActivity {
 
         @Override
@@ -15,4 +17,5 @@ public class MainActivity extends AppCompatActivity {
                 transaction.replace(R.id.frame_id, new RegisterFragment());
                 transaction.commit();
         }
+
 }

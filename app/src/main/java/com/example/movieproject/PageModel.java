@@ -6,8 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
-public class PageResult implements Serializable {
+public class PageModel implements Serializable {
     @SerializedName("page")
     private int page;
     @SerializedName("total_results")
@@ -17,7 +16,7 @@ public class PageResult implements Serializable {
     @SerializedName("results")
     private ArrayList<Movie> results;
 
-    public PageResult(int page, int totalResults, int totalPages, ArrayList<Movie> results) {
+    public PageModel(int page, int totalResults, int totalPages, ArrayList<Movie> results) {
         this.page = page;
         this.totalResults = totalResults;
         this.totalPages = totalPages;
