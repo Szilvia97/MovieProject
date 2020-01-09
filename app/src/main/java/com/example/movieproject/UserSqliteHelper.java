@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.movieproject.Model.User;
 
 
-public class SqliteHelper extends SQLiteOpenHelper {
+public class UserSqliteHelper extends SQLiteOpenHelper {
 
     //DATABASE NAME
     public static final String DATABASE_NAME = "MovieDB";
@@ -42,10 +42,11 @@ public class SqliteHelper extends SQLiteOpenHelper {
             + KEY_PASSWORD + " TEXT"
             + " ) ";
 
-
-    public SqliteHelper(Context context) {
+    public UserSqliteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {

@@ -7,13 +7,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PageModel implements Serializable {
-    @SerializedName("page")
     private int page;
     @SerializedName("total_results")
     private int totalResults;
     @SerializedName("total_pages")
     private int totalPages;
-    @SerializedName("results")
     private ArrayList<Movie> results;
 
     public PageModel(int page, int totalResults, int totalPages, ArrayList<Movie> results) {

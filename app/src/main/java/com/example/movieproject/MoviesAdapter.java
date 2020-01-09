@@ -1,24 +1,29 @@
 package com.example.movieproject;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.bumptech.glide.Glide;
 import com.example.movieproject.Model.Movie;
+import com.google.gson.Gson;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>{
-    private static final String TAG = "MovieList";
 
     List<Movie> movies;
     Context context;
@@ -40,28 +45,38 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG, "Creating view holder");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
         return new MoviesAdapter.MovieViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        Log.d(TAG, "Binding view holder");
+    public void onBindViewHolder(@NonNull MovieViewHolder holder, final int position) {
         ((TextView) holder.cardView.findViewById(R.id.tv_title)).
                 setText(movies.get(position).getTitle());
         ((TextView) holder.cardView.findViewById(R.id.tv_desc)).
                 setText(movies.get(position).getDescription());
 
-        /*holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.showDetails(movies.get(position));
+                Fragment fragment = new DetailsFragment();
+                Bundle args = new Bundle();
+                Gson gson = new Gson();
+                String movie = gson.toJson(movies.get(position));
+                args.putString("movie", movie);
+                fragment.setArguments(args);
+                NavigationActivity activity = (NavigationActivity) view.getContext();
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.navigationContainer, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
-        });*/
+        });
 
         Glide.with(context).
                 load("https://image.tmdb.org/t/p/w500" + movies.get(position).getPosterPath()).
+                placeholder(R.drawable.ic_launcher_foreground).
                 into((ImageView) holder.cardView.findViewById(R.id.iv_poster));
     }
 

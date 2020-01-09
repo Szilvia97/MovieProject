@@ -1,5 +1,7 @@
 package com.example.movieproject;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -22,7 +24,7 @@ public class LoginFragment extends Fragment {
     EditText et_login_pwd, et_login_email;
     TextView tv_reg;
     Button btn_login;
-    SqliteHelper sqliteHelper;
+    UserSqliteHelper userSqliteHelper;
 
 
     @Override
@@ -35,7 +37,7 @@ public class LoginFragment extends Fragment {
         tv_reg = v.findViewById(R.id.tv_reg);
         btn_login = v.findViewById(R.id.btn_login);
 
-        sqliteHelper = new SqliteHelper(getContext());
+        userSqliteHelper = new UserSqliteHelper(getContext());
 
         btn_login.setOnClickListener(onClickListenerLogin);
         tv_reg.setOnClickListener(onClickListenerReg);
@@ -46,22 +48,18 @@ public class LoginFragment extends Fragment {
     private View.OnClickListener onClickListenerLogin = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            sqliteHelper = new SqliteHelper(getContext());
+            userSqliteHelper = new UserSqliteHelper(getContext());
             if (validate()) {
 
                 String Email = et_login_email.getText().toString();
                 String Password = et_login_pwd.getText().toString();
 
-                User currentUser = sqliteHelper.Authenticate(new User(null, null, Email, Password));
+                User currentUser = userSqliteHelper.Authenticate(new User(null, null, Email, Password));
 
                 if (currentUser != null) {
                     Toast.makeText(getContext(), "Successfully Logged in!", Toast.LENGTH_LONG).show();
-                    Fragment fragment = new HomeFragment();
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame_id, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    Intent intent = new Intent(getActivity(), NavigationActivity.class);
+                    startActivity(intent);
 
                 } else {
                     Toast.makeText(getContext(), "Failed to log in , please try again", Toast.LENGTH_LONG).show();
@@ -75,10 +73,10 @@ public class LoginFragment extends Fragment {
         @Override
         public void onClick(View view) {
 
-                    Fragment fragment = new RegisterFragment();
+                    Fragment frag = new RegisterFragment();
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame_id, fragment);
+                    fragmentTransaction.replace(R.id.frame_id, frag);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
 
@@ -91,7 +89,6 @@ public class LoginFragment extends Fragment {
         String Email = et_login_email.getText().toString();
         String Password = et_login_pwd.getText().toString();
 
-        //Handling validation for Email field
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(Email).matches()) {
             valid = false;
             et_login_email.setError("Please enter valid email!");
@@ -100,7 +97,6 @@ public class LoginFragment extends Fragment {
             et_login_email.setError(null);
         }
 
-        //Handling validation for Password field
         if (Password.isEmpty()) {
             valid = false;
             et_login_pwd.setError("Please enter valid password!");

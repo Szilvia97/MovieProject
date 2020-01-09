@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Handler;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +22,7 @@ public class RegisterFragment extends Fragment {
     EditText et_reg_pwd, et_reg_email, et_reg_username;
     TextView tv_login;
     Button btn_reg;
-    SqliteHelper sqliteHelper;
+    UserSqliteHelper userSqliteHelper;
 
 
     @Override
@@ -38,7 +36,7 @@ public class RegisterFragment extends Fragment {
         tv_login = v.findViewById(R.id.tv_login);
         btn_reg = v.findViewById(R.id.btn_reg);
 
-        sqliteHelper = new SqliteHelper(getContext());
+        userSqliteHelper = new UserSqliteHelper(getContext());
 
         btn_reg.setOnClickListener(onClickListenerRegister);
         tv_login.setOnClickListener(onClickListenerLogin);
@@ -50,16 +48,14 @@ public class RegisterFragment extends Fragment {
     private View.OnClickListener onClickListenerRegister = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            sqliteHelper = new SqliteHelper(getContext());
-
             if (validate()) {
                 String UserName = et_reg_username.getText().toString();
                 String Email = et_reg_email.getText().toString();
                 String Password = et_reg_pwd.getText().toString();
 
-                if (!sqliteHelper.isEmailExists(Email)) {
+                if (!userSqliteHelper.isEmailExists(Email)) {
 
-                    sqliteHelper.addUser(new User(null, UserName, Email, Password));
+                    userSqliteHelper.addUser(new User(null, UserName, Email, Password));
                     Toast.makeText(getContext(), "User created successfully! Please Login ", Toast.LENGTH_LONG).show();
 
                     Fragment fragment = new LoginFragment();

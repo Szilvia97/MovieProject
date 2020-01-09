@@ -1,15 +1,8 @@
 package com.example.movieproject.Model;
 
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-
-import com.example.movieproject.SqliteHelper;
 
 public class User {
-    protected SQLiteDatabase MovieDB;
-    private SqliteHelper dbHelper;
-    private Context mContext;
 
     public String id;
     public String userName;
@@ -22,5 +15,14 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    public String getUsername() {
+
+        return userName;
+    }
+    public String getEmail() {
+        return email;
+    }
+
 
 }

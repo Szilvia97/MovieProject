@@ -1,5 +1,4 @@
 package com.example.movieproject;
-
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Retrofit {

@@ -3,36 +3,54 @@ package com.example.movieproject;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import com.example.movieproject.Model.Movie;
+
+import java.util.ArrayList;
+
 
 public class FavouritesFragment extends Fragment {
+
+    MovieSqliteHelper movieSqliteHelper;
+    ArrayList<Movie> movie;
+    private MoviesAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourites, container, false);
+        View view = inflater.inflate(R.layout.fragment_favourites, container, false);
+        recyclerView = view.findViewById(R.id.rv_fav);
+        movieSqliteHelper = new MovieSqliteHelper(getActivity().getApplicationContext());
+
+        movie = movieSqliteHelper.getMovies();
+        if (adapter == null){
+            layoutManager = new LinearLayoutManager(getContext());
+            adapter = new MoviesAdapter(movie, getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
+        }
+        else{
+            adapter.updateMovies(movie);
+            adapter.notifyDataSetChanged();
+        }
+
+        return view;
     }
 
-    public static interface Queries {
-        @GET("movie/popular")
-        Call<PageModel> getPopularMovies(@Query("page") int page, @Query("api_key") String apiKey);
-
-        @GET("search/movie")
-        Call<PageModel> searchMovie(@Query("page") int page, @Query("api_key") String apiKey, @Query("query") String query);
-
-        @GET("movie/{movie_id}/similar")
-        Call<PageModel> getSimilar(@Path("movie_id") int id, @Query("page") int page, @Query("api_key") String apiKey);
-
-//        @GET("movie/{movie_id}/images")
-//        Call<Images> getImages(@Path("movie_id") int id, @Query("api_key") String apiKey);
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter = null;
+        layoutManager = null;
     }
+
 }

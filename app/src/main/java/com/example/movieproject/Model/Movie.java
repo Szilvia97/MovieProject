@@ -1,39 +1,28 @@
 package com.example.movieproject.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 
 public class Movie implements Serializable {
-    public static final String TABLE_NAME = "movies";
-
-    public static final String COLUMN_ID = "movie_id";
-    public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_DESCRIPTION = "overview";
-    public static final String COLUMN_POSTER_PATH = "poster_path";
-    public static final String COLUMN_USER_ID = "user_id";
-    public static final String CREATE_TABLE =
-            "CREATE TABLE " + TABLE_NAME + " ("
-                    + COLUMN_ID + " INTEGER PRIMARY KEY, "
-                    + COLUMN_TITLE + " TEXT, "
-                    + COLUMN_DESCRIPTION + " TEXT, "
-                    + COLUMN_POSTER_PATH + " TEXT, "
-                    + COLUMN_USER_ID + " INTEGER"
-                    + ")";
-
 
     private int id;
 
     private String title;
 
     private String overview;
-
+    @SerializedName("poster_path")
     private String posterPath;
+    @SerializedName("vote_average")
+    private String rating;
 
-    public Movie(int id, String title, String description, String posterPath) {
+    public Movie(int id, String title, String overview, String posterPath, String rating) {
         this.id = id;
         this.title = title;
         this.overview = overview;
         this.posterPath = posterPath;
+        this.rating = rating;
     }
 
     public int getId() {
@@ -68,12 +57,8 @@ public class Movie implements Serializable {
         this.posterPath = posterPath;
     }
 
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "title='" + title + '\'' +
-                ", description='" + overview + '\'' +
-                ", posterPath='" + posterPath + '\'' +
-                '}';
-    }
+    public String getRating() {return rating;}
+
+    public void setRating(String Rating){this.rating = Rating;}
+
 }
